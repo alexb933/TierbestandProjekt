@@ -18,8 +18,8 @@ public class addValue_class {
 	         System.out.println("Opened database successfully");
 
 	         stmt = c.createStatement();
-	         String sql = "INSERT INTO bestand_u_30 (id,anzahl,zuab,datum) "
-	            + "VALUES (2,200,1,current_timestamp);";
+	         String sql = "INSERT INTO bestandu30 (id,anzahl,code, hinweis, datum, bestand) "
+	            + "VALUES (1,200,1, 'Zugang', current_timestamp, 5);";
 	         stmt.executeUpdate(sql);
 
 
