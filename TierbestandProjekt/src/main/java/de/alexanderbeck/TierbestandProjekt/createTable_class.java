@@ -17,13 +17,10 @@ public class createTable_class {
 		         System.out.println("Opened database successfully");
 
 		         stmt = c.createStatement();
-		         String sql = "CREATE TABLE bestandu30 " +
+		         String sql = "CREATE TABLE bestand " +
 		            "(ID INT PRIMARY KEY     NOT NULL," +
 		            " ANZAHL         INT    NOT NULL, " +
-		            " CODE           INT     NOT NULL, " +
-		            " HINWEIS        CHAR(50),d " +
-		            " DATUM          DATE    NOT NULL, " +
-		            " BESTAND        INT     NOT NULL)";
+		            " HINWEIS        CHAR(50) )";
 		         stmt.executeUpdate(sql);
 		         stmt.close();
 		         c.close();

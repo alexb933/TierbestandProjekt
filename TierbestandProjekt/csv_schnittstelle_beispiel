@@ -1,0 +1,16 @@
+BNR15;TAMV_DAT;TAMB_FORM;TAMV_ART;TAMV_ANZ;TAM_PERIOD
+08 436 095 0018;14.07.2019;31;BZU;100;142
+08 436 095 0018;22.07.2019;31;BZU;400;142
+
+
+
+-----------Erklärung:------- nicht Bestandteil der CSV------
+
+
+BNR15;			Betriebsnummer immer --> 08 436 095 0018
+TAMV_DAT;		Datum der Meldung	 --> muss aus der Datenbank entnommen werden entspricht dem Datum der eingegebenen Meldung
+TAMB_FORM;		Nutzungsart			 --> ist entweder 31(Mastferkel bis 30kg) oder 32 (Schweine ab 30kg)
+TAMV_ART;		Art Bestandsänderung --> BZU Zugang oder BAB Abgang
+TAMV_ANZ;		Anzahl zugegangener/abgegangener Tiere	
+TAM_PERIOD		Meldeperiode 		--> ist das Halbjahr in welchem gemeldet wird. 20.09.19 wäre zb "192", 01.02.2020 wäre "201"
+									--> Syntax jjh    wobei j= jahr und h=halbjahr 1 oder2
