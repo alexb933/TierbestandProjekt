@@ -25,12 +25,12 @@ public class Bestand {
 	  private int anzahl;
 	  private int halbjahr;
 	  private String hinweis;
-//	  private int bestandu30;
-//	  private int bestandab30;
+	  private int bestandu30;
+	  private int bestandab30;
 
 	  protected Bestand() {}
 
-	  public Bestand( String nutzarttxt, String aenderartcode, Integer anzahl, Integer halbjahr, String hinweis) {
+	  public Bestand( String nutzarttxt, String aenderartcode, Integer anzahl, Integer halbjahr, String hinweis, Integer bestandu30, Integer bestandab30) {
 	    this.bnummer ="08 436 095 0018";
 	    
 	    this.nutzarttxt = nutzarttxt;
@@ -57,6 +57,9 @@ public class Bestand {
 	    this.halbjahr = halbjahr;
 	    this.hinweis = hinweis;
 	    this.zeitstamp = LocalDateTime.now();
+	    this.bestandu30 = bestandu30;
+	    this.bestandab30 = bestandab30;
+	    
 	  }
 
 	  @Override
@@ -96,5 +99,11 @@ public class Bestand {
 	  public String getHinweis() {
 	    return hinweis;
 	  }
+	  public int getBestandu30() {
+		    return bestandu30;
+		  }
+	  public int getBestandab30() {
+		    return bestandab30;
+		  }
 
 }
