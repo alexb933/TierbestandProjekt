@@ -3,6 +3,7 @@ package de.alexanderbeck.TierbestandProjekt;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 //import com.baeldung.model.Person;
 import javafx.collections.FXCollections;
@@ -16,7 +17,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.stream.Collectors;
 
-
+@Controller
 public class SearchController {
 		  
     @FXML
@@ -34,7 +35,7 @@ public class SearchController {
 
     private void test() {
     	//repository.save(new Bestand( "bis30kg", "BZU", 10, 192, "Test Hinweis",300,200));
-    	System.out.println("Juhuu");
+    	System.out.println("wuhuu");
     }
 	
 
