@@ -38,12 +38,13 @@ public class ChartApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //applicationContext.publishEvent(new StageReadyEvent(stage));
-        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+        
+    	Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
         double width = visualBounds.getWidth();
-        double height = visualBounds.getHeight();
+//        double height = visualBounds.getHeight();
         
         stage.setTitle("Tierbestands Meldeprogramm");
-        stage.setScene(new Scene(rootNode, width, height));
+        stage.setScene(new Scene(rootNode, width, 300));
         stage.centerOnScreen();
         stage.show();
     }

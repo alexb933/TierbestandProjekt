@@ -1,5 +1,6 @@
 package de.alexanderbeck.TierbestandProjekt;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -17,25 +18,43 @@ import javafx.scene.layout.VBox;
 
 import java.util.stream.Collectors;
 
+@SpringBootApplication
 @Controller
 public class SearchController {
+	
+	@Autowired
+	private BestandRepository repository;
 		  
     @FXML
-    private TextField searchField;
+    private TextField geburtenTxt;
     @FXML
-    private Button searchButton;
+    private Button geburtenBtn;
+    @FXML
+    private TextArea summe;    
+    
+    
      
     @FXML
     private void initialize() {
         // search panel
         //searchButton.setText("Search");
-        searchButton.setOnAction(event -> test());
+    	
+        geburtenBtn.setOnAction(event -> geburten());
+        
         //searchButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
     }
-
-    private void test() {
-    	//repository.save(new Bestand( "bis30kg", "BZU", 10, 192, "Test Hinweis",300,200));
-    	System.out.println("wuhuu");
+    @FXML
+    public void geburten() {
+    	int anzahl = Integer.parseInt(geburtenTxt.getText());
+    	
+    	repository.save(new Bestand( "bis30kg", "BZU", anzahl, 192, "blabla",300,200));
+    	
+	    Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
+	    int bestandu30 = bestand1.getBestandu30();
+    	
+    	summe.setText(Integer.toString(bestandu30));
+    	//System.out.println(txt);
+    	//System.out.println("wuhuu");
     }
 	
 
