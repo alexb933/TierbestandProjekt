@@ -2,7 +2,7 @@ package de.alexanderbeck.TierbestandProjekt;
 
 
 import java.time.LocalDateTime;
-
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,10 +27,11 @@ public class Bestand {
 	  private String hinweis;
 	  private int bestandu30;
 	  private int bestandab30;
+	  private LocalDate meldedatum;
 
 	  protected Bestand() {}
 
-	  public Bestand( String nutzarttxt, String aenderartcode, Integer anzahl, Integer halbjahr, String hinweis, Integer bestandu30, Integer bestandab30) {
+	  public Bestand( String nutzarttxt, String aenderartcode, Integer anzahl, Integer halbjahr, String hinweis, LocalDate meldedatum, Integer bestandu30, Integer bestandab30) {
 	    this.bnummer ="08 436 095 0018";
 	    
 	    this.nutzarttxt = nutzarttxt;
@@ -57,8 +58,10 @@ public class Bestand {
 	    this.halbjahr = halbjahr;
 	    this.hinweis = hinweis;
 	    this.zeitstamp = LocalDateTime.now();
+	    this.meldedatum = meldedatum;
 	    this.bestandu30 = bestandu30;
 	    this.bestandab30 = bestandab30;
+	    
 	    
 	  }
 
@@ -104,6 +107,9 @@ public class Bestand {
 		  }
 	  public int getBestandab30() {
 		    return bestandab30;
+		  }
+	  public LocalDate getMeldedatum() {
+		    return meldedatum;
 		  }
 
 }

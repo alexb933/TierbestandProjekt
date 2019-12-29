@@ -18,6 +18,8 @@ import javafx.scene.layout.VBox;
 
 import java.util.stream.Collectors;
 
+import java.time.LocalDate;
+
 @SpringBootApplication
 @Controller
 public class SearchController {
@@ -30,32 +32,95 @@ public class SearchController {
     @FXML
     private Button geburtenBtn;
     @FXML
-    private TextArea summe;    
+    private TextField uebergangTxt;
+    @FXML
+    private Button uebergangBtn;
+    @FXML
+    private TextArea summeU30;
+    @FXML
+    private TextArea summeAb30; 
+    @FXML
+    private DatePicker meldedatumPicker; 
     
     
      
     @FXML
     private void initialize() {
-        // search panel
-        //searchButton.setText("Search");
+       
+        //lade die letzten Bestände und zeige diese auf der GUI an
     	
+    	Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
+    	int bestandAb30 = bestand1.getBestandab30();
+    	int bestandu30 = bestand1.getBestandu30();
+    	summeU30.setText(Integer.toString(bestandu30));
+    	summeAb30.setText(Integer.toString(bestandAb30));
+    	
+    	
+    	meldedatumPicker.setValue(LocalDate.now());
         geburtenBtn.setOnAction(event -> geburten());
+        uebergangBtn.setOnAction(event -> uebergang());
+        
         
         //searchButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
     }
     @FXML
     public void geburten() {
+    	
+    	
+    	Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
+    	int bestandAb30 = bestand1.getBestandab30();
+    	int bestandu30 = bestand1.getBestandu30();
+    	
+    	LocalDate meldedatum = meldedatumPicker.getValue();
     	int anzahl = Integer.parseInt(geburtenTxt.getText());
+    	bestandu30 = bestandu30 + anzahl;
+    	repository.save(new Bestand( "bis30kg", "BZU", anzahl, 192, "Geburt",meldedatum, bestandu30,bestandAb30));
     	
-    	repository.save(new Bestand( "bis30kg", "BZU", anzahl, 192, "blabla",300,200));
-    	
-	    Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
-	    int bestandu30 = bestand1.getBestandu30();
-    	
-    	summe.setText(Integer.toString(bestandu30));
+
+    	summeU30.setText(Integer.toString(bestandu30));
+    	summeAb30.setText(Integer.toString(bestandAb30));
+    	meldedatumPicker.setValue(LocalDate.now());
+    	geburtenTxt.setText("");
     	//System.out.println(txt);
     	//System.out.println("wuhuu");
     }
+    @FXML
+    public void uebergang() {
+    	
+    	
+    	Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
+    	int bestandAb30 = bestand1.getBestandab30();
+    	int bestandu30 = bestand1.getBestandu30();
+    	
+    	LocalDate meldedatum = meldedatumPicker.getValue();
+    	int anzahl = Integer.parseInt(uebergangTxt.getText());
+    	bestandu30 = bestandu30 - anzahl;
+    	bestandAb30 = bestandAb30 + anzahl;
+    	repository.save(new Bestand( "bis30kg", "BAB", anzahl, 192, "Umstallen",meldedatum, bestandu30,bestandAb30));
+    	repository.save(new Bestand( "ab30kg", "BZU", anzahl, 192, "Umstallen",meldedatum, bestandu30,bestandAb30));
+    	
+    	updaten();
+//    	summeU30.setText(Integer.toString(bestandu30));
+//    	summeAb30.setText(Integer.toString(bestandAb30));
+    	meldedatumPicker.setValue(LocalDate.now());
+    	uebergangTxt.setText("");
+    	
+    }
+    
+    @FXML
+    public void updaten() {
+    	
+    	
+    	Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
+    	int bestandAb30 = bestand1.getBestandab30();
+    	int bestandu30 = bestand1.getBestandu30();
+
+    	summeU30.setText(Integer.toString(bestandu30));
+    	summeAb30.setText(Integer.toString(bestandAb30));
+
+    	
+    }
+
 	
 
 }

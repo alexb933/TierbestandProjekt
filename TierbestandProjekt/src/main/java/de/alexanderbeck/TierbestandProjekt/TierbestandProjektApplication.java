@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import javafx.application.Application;
+import java.time.LocalDate;
 
 
 @SpringBootApplication
@@ -38,6 +39,9 @@ public class TierbestandProjektApplication {
 //	      bestandu30 = bestandu30 + aenderwert;
 	      
 	      // save a few data
+	      //repository.save(new Bestand( "bis30kg", "BZU", 0, 192, "Erster Eintrag",LocalDate.now(),0,0));
+	      
+	    	
 //	      repository.save(new Bestand( "bis30kg", "BZU", 10, 192, "Test Hinweis",bestandu30,bestandab30));
 //	      repository.save(new Bestand( "ab30kg", "BAB", 20, 192, "Test Hinweis2",bestandu30,bestandab30));
 
