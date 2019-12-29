@@ -16,3 +16,8 @@ TAMV_ART;		Art Bestandsänderung --> BZU Zugang oder BAB Abgang
 TAMV_ANZ;		Anzahl zugegangener/abgegangener Tiere	
 TAM_PERIOD		Meldeperiode 		--> ist das Halbjahr in welchem gemeldet wird. 20.09.19 wäre zb "192", 01.02.2020 wäre "201"
 									--> Syntax jjh    wobei j= jahr und h=halbjahr 1 oder2
+									
+									
+Fragen:
+configfile zur Pflege der DB Parameter und standardwerte wie Bnummer usw.?
+Datum Halbjahr einbauen!

@@ -41,6 +41,8 @@ public class SearchController {
     private TextArea summeAb30; 
     @FXML
     private DatePicker meldedatumPicker; 
+    @FXML
+    private Button csvExportBtn;
     
     
      
@@ -59,13 +61,12 @@ public class SearchController {
     	meldedatumPicker.setValue(LocalDate.now());
         geburtenBtn.setOnAction(event -> geburten());
         uebergangBtn.setOnAction(event -> uebergang());
-        
+        csvExportBtn.setOnAction(event -> csvExportieren());
         
         //searchButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
     }
     @FXML
     public void geburten() {
-    	
     	
     	Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
     	int bestandAb30 = bestand1.getBestandab30();
@@ -77,12 +78,10 @@ public class SearchController {
     	repository.save(new Bestand( "bis30kg", "BZU", anzahl, 192, "Geburt",meldedatum, bestandu30,bestandAb30));
     	
 
-    	summeU30.setText(Integer.toString(bestandu30));
-    	summeAb30.setText(Integer.toString(bestandAb30));
+    	updaten();
     	meldedatumPicker.setValue(LocalDate.now());
     	geburtenTxt.setText("");
-    	//System.out.println(txt);
-    	//System.out.println("wuhuu");
+
     }
     @FXML
     public void uebergang() {
@@ -100,8 +99,7 @@ public class SearchController {
     	repository.save(new Bestand( "ab30kg", "BZU", anzahl, 192, "Umstallen",meldedatum, bestandu30,bestandAb30));
     	
     	updaten();
-//    	summeU30.setText(Integer.toString(bestandu30));
-//    	summeAb30.setText(Integer.toString(bestandAb30));
+
     	meldedatumPicker.setValue(LocalDate.now());
     	uebergangTxt.setText("");
     	
@@ -117,8 +115,18 @@ public class SearchController {
 
     	summeU30.setText(Integer.toString(bestandu30));
     	summeAb30.setText(Integer.toString(bestandAb30));
+    	
+
+	    }
 
     	
+    
+    @FXML
+    public void csvExportieren() {
+    	
+	    for (Bestand bestand : repository.findAll()) {
+	    	  System.out.println(bestand.toString());
+	    }
     }
 
 	

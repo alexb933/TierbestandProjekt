@@ -1,14 +1,11 @@
 package de.alexanderbeck.TierbestandProjekt;
 
-
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
 
 @Entity
 public class Bestand {
@@ -32,9 +29,10 @@ public class Bestand {
 	  protected Bestand() {}
 
 	  public Bestand( String nutzarttxt, String aenderartcode, Integer anzahl, Integer halbjahr, String hinweis, LocalDate meldedatum, Integer bestandu30, Integer bestandab30) {
-	    this.bnummer ="08 436 095 0018";
 	    
-	    this.nutzarttxt = nutzarttxt;
+		this.bnummer ="08 436 095 0018"; //konstant
+	    
+		this.nutzarttxt = nutzarttxt;
 	    if (nutzarttxt == "bis30kg") {
 	    	this.nutzartcode = 31;
 	    } else if (nutzarttxt == "ab30kg"){
