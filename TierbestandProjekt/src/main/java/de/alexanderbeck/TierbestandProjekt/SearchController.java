@@ -9,6 +9,16 @@ import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +62,11 @@ public class SearchController {
     @FXML
     private TextArea summeAb30; 
     @FXML
+    private TextArea letzterEintragTxt; 
+    @FXML
     private DatePicker meldedatumPicker; 
+    @FXML
+    private Button loeschenBtn;
     @FXML
     private Button csvExportBtn;
     
@@ -62,11 +76,13 @@ public class SearchController {
     private void initialize() {
        
         //lade die letzten Bestände und zeige diese auf der GUI an
-    	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
-    	int bestandAb30 = bestand1.getBestandab30();
-    	int bestandu30 = bestand1.getBestandu30();
-    	summeU30.setText(Integer.toString(bestandu30));
-    	summeAb30.setText(Integer.toString(bestandAb30));
+//    	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
+//    	int bestandAb30 = bestand1.getBestandab30();
+//    	int bestandu30 = bestand1.getBestandu30();
+//    	summeU30.setText(Integer.toString(bestandu30));
+//    	summeAb30.setText(Integer.toString(bestandAb30));
+    	updaten();
+    	
     	
     	
     	meldedatumPicker.setValue(LocalDate.now());
@@ -76,7 +92,7 @@ public class SearchController {
         toteU30Btn.setOnAction(event -> toteU30());
         toteAb30Btn.setOnAction(event -> toteAb30());
         verkaufBtn.setOnAction(event -> verkauf());
-        
+        loeschenBtn.setOnAction(event -> loeschen());
         //searchButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
     }
     @FXML
@@ -174,6 +190,16 @@ public class SearchController {
     	meldedatumPicker.setValue(LocalDate.now());
     	verkaufTxt.setText("");
     }
+    @FXML
+    public void loeschen() {
+    	
+    	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
+
+    	repository.deleteById(bestand1.getId());
+    	showAlert("Der zuletzt gespeicherte Datensatz wurde gelöscht. Angezeigt wird nun der neue letzte Eintrag (zweitletzter)");
+    	updaten();
+
+    }
     
     @FXML
     public void updaten() {
@@ -184,12 +210,14 @@ public class SearchController {
 
     	summeU30.setText(Integer.toString(bestandu30));
     	summeAb30.setText(Integer.toString(bestandAb30));
+    	letzterEintragTxt.setText(bestand1.toString());
 	    }
 
     @FXML
     public void csvExportieren() {
     	List<String[]> dataLines = new ArrayList<>();
-    	File csvOutputFile = new File("Exportdatei.txt");
+    	String pfad = System.getProperty("user.home") + "/Desktop";
+    	File csvOutputFile = new File(pfad + "/Exportdatei.txt");
     	
     	dataLines.add(new String[] 
   			  {"BNR15","TAMV_DAT","TAMB_FORM","TAMV_ART","TAMV_ANZ","TAM_PERIOD"});
@@ -211,6 +239,7 @@ public class SearchController {
         	//assertTrue(csvOutputFile.exists());
         	System.out.println("Fehler bei der CSV Erstellung");
         }
+        showAlert("Die CSV Datei wurde erfolgreich auf dem Desktop gespeichert");
         
     }
     
@@ -240,4 +269,11 @@ public class SearchController {
     	halbjahr = jahr+halbjahr;
 	return halbjahr;
 	}
+    private void showAlert(String nachricht) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Hinweis");
+        alert.setHeaderText(null);
+        alert.setContentText(nachricht);
+        alert.showAndWait();
+    }
 }

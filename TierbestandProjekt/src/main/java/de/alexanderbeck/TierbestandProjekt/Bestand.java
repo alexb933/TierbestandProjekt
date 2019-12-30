@@ -66,8 +66,8 @@ public class Bestand {
 	  @Override
 	  public String toString() {
 	    return String.format(
-	        "Bestand[id=%d, bnummer='%s', Zeit='%s', nutzartcode='%d', nutzarttxt='%s', aenderartcode='%s', aenderarttxt='%s', anzahl='%d', halbjahr='%s', hinweis='%s']",
-	        id, bnummer, zeitstamp, nutzartcode, nutzarttxt, aenderartcode, aenderarttxt, anzahl, halbjahr, hinweis);
+	        "letzte Meldung: Bestandart='%s', Änderung='%s', Anzahl='%d', Hinweis='%s', Meldedatum='%s', Zeitpunkt der Meldung='%s'",
+	        nutzarttxt, aenderarttxt, anzahl, hinweis, meldedatum, zeitstamp);
 	  }
 
 	  public Long getId() {
