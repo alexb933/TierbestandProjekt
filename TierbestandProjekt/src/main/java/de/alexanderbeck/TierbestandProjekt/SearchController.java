@@ -79,6 +79,9 @@ public class SearchController {
         geburtenBtn.setOnAction(event -> geburten());
         uebergangBtn.setOnAction(event -> uebergang());
         csvExportBtn.setOnAction(event -> csvExportieren());
+        toteU30Btn.setOnAction(event -> toteU30());
+        toteAb30Btn.setOnAction(event -> toteAb30());
+        verkaufBtn.setOnAction(event -> verkauf());
         
         //searchButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
     }
@@ -141,6 +144,42 @@ public class SearchController {
     	meldedatumPicker.setValue(LocalDate.now());
     	uebergangTxt.setText("");
     }
+    @FXML
+    public void toteAb30() {
+    	
+    	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
+    	int bestandAb30 = bestand1.getBestandab30();
+    	int bestandu30 = bestand1.getBestandu30();
+    		
+    	LocalDate meldedatum = meldedatumPicker.getValue();
+    	String halbjahr = ermittleHalbjahr(meldedatum);
+    	
+    	int anzahl = Integer.parseInt(toteAb30Txt.getText());
+    	bestandAb30 = bestandAb30 - anzahl;
+    	repository.save(new Bestand( "ab30kg", "BAB", anzahl, halbjahr, "Tod/Verendung",meldedatum, bestandu30,bestandAb30));
+    	
+    	updaten();
+    	meldedatumPicker.setValue(LocalDate.now());
+    	toteAb30Txt.setText("");
+    }
+    @FXML
+    public void verkauf() {
+    	
+    	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
+    	int bestandAb30 = bestand1.getBestandab30();
+    	int bestandu30 = bestand1.getBestandu30();
+    		
+    	LocalDate meldedatum = meldedatumPicker.getValue();
+    	String halbjahr = ermittleHalbjahr(meldedatum);
+    	
+    	int anzahl = Integer.parseInt(verkaufTxt.getText());
+    	bestandAb30 = bestandAb30 - anzahl;
+    	repository.save(new Bestand( "ab30kg", "BAB", anzahl, halbjahr, "Verkauf",meldedatum, bestandu30,bestandAb30));
+    	
+    	updaten();
+    	meldedatumPicker.setValue(LocalDate.now());
+    	verkaufTxt.setText("");
+    }
     
     @FXML
     public void updaten() {
@@ -198,16 +237,16 @@ public class SearchController {
         }
         return escapedData;
     }
-        private String ermittleHalbjahr(LocalDate meldedatum) {
-        	int monat = Integer.valueOf(meldedatum.format(DateTimeFormatter.ofPattern("MM")));
-        	String jahr = meldedatum.format(DateTimeFormatter.ofPattern("yy"));
-        	String halbjahr;
-    	    if (monat <= 6 && monat >=1) {
-    	    	halbjahr = "1";
-    	    }  else {
-    	    	halbjahr = "2";
-    	    }
-        	halbjahr = jahr+halbjahr;
-		return halbjahr;
+    private String ermittleHalbjahr(LocalDate meldedatum) {
+    	int monat = Integer.valueOf(meldedatum.format(DateTimeFormatter.ofPattern("MM")));
+    	String jahr = meldedatum.format(DateTimeFormatter.ofPattern("yy"));
+    	String halbjahr;
+	    if (monat <= 6 && monat >=1) {
+	    	halbjahr = "1";
+	    }  else {
+	    	halbjahr = "2";
+	    }
+    	halbjahr = jahr+halbjahr;
+	return halbjahr;
 	}
 }

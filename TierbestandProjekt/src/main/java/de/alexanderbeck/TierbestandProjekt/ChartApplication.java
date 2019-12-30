@@ -44,7 +44,7 @@ public class ChartApplication extends Application {
 //        double height = visualBounds.getHeight();
         
         stage.setTitle("Tierbestands Meldeprogramm");
-        stage.setScene(new Scene(rootNode, width, 300));
+        stage.setScene(new Scene(rootNode, width, 500));
         stage.centerOnScreen();
         stage.show();
     }
