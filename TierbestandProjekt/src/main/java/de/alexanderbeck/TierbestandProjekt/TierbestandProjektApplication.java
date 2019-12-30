@@ -1,13 +1,15 @@
 package de.alexanderbeck.TierbestandProjekt;
 
 
+import java.time.LocalDateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
+import java.time.LocalDate;
 import javafx.application.Application;
 
 
@@ -25,8 +27,9 @@ public class TierbestandProjektApplication {
 	  public CommandLineRunner demo(BestandRepository repository) {
 	    return (args) -> {
 
-
-
+	    	
+	    //setzen auf create und dann Ersten Eintrag schreiben:	
+	    //repository.save(new Bestand( "bis30kg", "BZU", 0, "192", "Erster Eintrag",LocalDate.now(),0,0));
 
 	      			// fetch all bestand
 //	      log.info("Bestand found with findAll():");

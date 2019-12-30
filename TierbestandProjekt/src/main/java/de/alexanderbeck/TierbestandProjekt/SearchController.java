@@ -35,7 +35,19 @@ public class SearchController {
     @FXML
     private TextField geburtenTxt;
     @FXML
+    private TextField toteU30Txt;
+    @FXML
+    private TextField toteAb30Txt;
+    @FXML
+    private TextField verkaufTxt;
+    @FXML
     private Button geburtenBtn;
+    @FXML
+    private Button toteU30Btn;
+    @FXML
+    private Button toteAb30Btn;
+    @FXML
+    private Button verkaufBtn;
     @FXML
     private TextField uebergangTxt;
     @FXML
@@ -56,7 +68,7 @@ public class SearchController {
        
         //lade die letzten Bestände und zeige diese auf der GUI an
     	
-    	Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
+    	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
     	int bestandAb30 = bestand1.getBestandab30();
     	int bestandu30 = bestand1.getBestandu30();
     	summeU30.setText(Integer.toString(bestandu30));
@@ -73,48 +85,68 @@ public class SearchController {
     @FXML
     public void geburten() {
     	
-    	Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
+    	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
     	int bestandAb30 = bestand1.getBestandab30();
     	int bestandu30 = bestand1.getBestandu30();
-    	
+    		
     	LocalDate meldedatum = meldedatumPicker.getValue();
+    	String halbjahr = ermittleHalbjahr(meldedatum);
+    	
     	int anzahl = Integer.parseInt(geburtenTxt.getText());
     	bestandu30 = bestandu30 + anzahl;
-    	repository.save(new Bestand( "bis30kg", "BZU", anzahl, 192, "Geburt",meldedatum, bestandu30,bestandAb30));
+    	repository.save(new Bestand( "bis30kg", "BZU", anzahl, halbjahr, "Geburt",meldedatum, bestandu30,bestandAb30));
     	
-
     	updaten();
     	meldedatumPicker.setValue(LocalDate.now());
     	geburtenTxt.setText("");
-
     }
     @FXML
+    public void toteU30() {
+    	
+    	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
+    	int bestandAb30 = bestand1.getBestandab30();
+    	int bestandu30 = bestand1.getBestandu30();
+    		
+    	LocalDate meldedatum = meldedatumPicker.getValue();
+    	String halbjahr = ermittleHalbjahr(meldedatum);
+    	
+    	int anzahl = Integer.parseInt(toteU30Txt.getText());
+    	bestandu30 = bestandu30 - anzahl;
+    	repository.save(new Bestand( "bis30kg", "BAB", anzahl, halbjahr, "Tod/Verendung",meldedatum, bestandu30,bestandAb30));
+    	
+    	updaten();
+    	meldedatumPicker.setValue(LocalDate.now());
+    	toteU30Txt.setText("");
+    }
+    
+
+	@FXML
     public void uebergang() {
     	
-    	
-    	Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
+    	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
     	int bestandAb30 = bestand1.getBestandab30();
     	int bestandu30 = bestand1.getBestandu30();
     	
     	LocalDate meldedatum = meldedatumPicker.getValue();
+    	String halbjahr = ermittleHalbjahr(meldedatum);
+    	
     	int anzahl = Integer.parseInt(uebergangTxt.getText());
     	bestandu30 = bestandu30 - anzahl;
     	bestandAb30 = bestandAb30 + anzahl;
-    	repository.save(new Bestand( "bis30kg", "BAB", anzahl, 192, "Umstallen",meldedatum, bestandu30,bestandAb30));
-    	repository.save(new Bestand( "ab30kg", "BZU", anzahl, 192, "Umstallen",meldedatum, bestandu30,bestandAb30));
+    	repository.save(new Bestand( "bis30kg", "BAB", anzahl, halbjahr, "Umstallen",meldedatum, bestandu30,bestandAb30));
+    	repository.save(new Bestand( "ab30kg", "BZU", anzahl, halbjahr, "Umstallen",meldedatum, bestandu30,bestandAb30));
     	
     	updaten();
 
     	meldedatumPicker.setValue(LocalDate.now());
     	uebergangTxt.setText("");
-    	
     }
     
     @FXML
     public void updaten() {
     	
     	
-    	Bestand bestand1 = repository.findFirstByNutzartcodeOrderByZeitstampDesc(31);
+    	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
     	int bestandAb30 = bestand1.getBestandab30();
     	int bestandu30 = bestand1.getBestandu30();
 
@@ -138,7 +170,7 @@ public class SearchController {
 	    	String formattedMeldedatum = meldedatum.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 	  
 	    	dataLines.add(new String[] 
-	    			  {bestand.getBNummer(),formattedMeldedatum, Integer.toString(bestand.getNutzartCode()), bestand.getAenderartCode(),Integer.toString(bestand.getAnzahl()), Integer.toString(bestand.getHalbjahr()) });
+	    			  {bestand.getBNummer(),formattedMeldedatum, Integer.toString(bestand.getNutzartCode()), bestand.getAenderartCode(),Integer.toString(bestand.getAnzahl()), bestand.getHalbjahr() });
 	    }
         try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
             dataLines.stream()
@@ -166,5 +198,16 @@ public class SearchController {
         }
         return escapedData;
     }
-    
+        private String ermittleHalbjahr(LocalDate meldedatum) {
+        	int monat = Integer.valueOf(meldedatum.format(DateTimeFormatter.ofPattern("MM")));
+        	String jahr = meldedatum.format(DateTimeFormatter.ofPattern("yy"));
+        	String halbjahr;
+    	    if (monat <= 6 && monat >=1) {
+    	    	halbjahr = "1";
+    	    }  else {
+    	    	halbjahr = "2";
+    	    }
+        	halbjahr = jahr+halbjahr;
+		return halbjahr;
+	}
 }

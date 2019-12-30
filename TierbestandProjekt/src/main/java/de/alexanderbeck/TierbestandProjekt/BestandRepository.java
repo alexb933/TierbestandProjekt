@@ -9,5 +9,5 @@ public interface BestandRepository extends JpaRepository<Bestand, Long>{
 
 	//List<Bestand> findByHinweis(String hinweis);
 	//Bestand findById(long id);
-	Bestand findFirstByNutzartcodeOrderByZeitstampDesc(int nutzartcode);
+	Bestand findFirstByBnummerOrderByZeitstampDesc(String bnummer);
 }

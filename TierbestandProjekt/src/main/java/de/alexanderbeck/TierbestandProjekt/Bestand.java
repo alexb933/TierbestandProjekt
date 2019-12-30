@@ -20,7 +20,7 @@ public class Bestand {
 	  private String aenderartcode;
 	  private String aenderarttxt;
 	  private int anzahl;
-	  private int halbjahr;
+	  private String halbjahr;
 	  private String hinweis;
 	  private int bestandu30;
 	  private int bestandab30;
@@ -28,7 +28,7 @@ public class Bestand {
 
 	  protected Bestand() {}
 
-	  public Bestand( String nutzarttxt, String aenderartcode, Integer anzahl, Integer halbjahr, String hinweis, LocalDate meldedatum, Integer bestandu30, Integer bestandab30) {
+	  public Bestand( String nutzarttxt, String aenderartcode, Integer anzahl, String halbjahr, String hinweis, LocalDate meldedatum, Integer bestandu30, Integer bestandab30) {
 	    
 		this.bnummer ="08 436 095 0018"; //konstant
 	    
@@ -66,7 +66,7 @@ public class Bestand {
 	  @Override
 	  public String toString() {
 	    return String.format(
-	        "Bestand[id=%d, bnummer='%s', Zeit='%s', nutzartcode='%d', nutzarttxt='%s', aenderartcode='%s', aenderarttxt='%s', anzahl='%d', halbjahr='%d', hinweis='%s']",
+	        "Bestand[id=%d, bnummer='%s', Zeit='%s', nutzartcode='%d', nutzarttxt='%s', aenderartcode='%s', aenderarttxt='%s', anzahl='%d', halbjahr='%s', hinweis='%s']",
 	        id, bnummer, zeitstamp, nutzartcode, nutzarttxt, aenderartcode, aenderarttxt, anzahl, halbjahr, hinweis);
 	  }
 
@@ -94,7 +94,7 @@ public class Bestand {
 	  public int getAnzahl() {
 	    return anzahl;
 	  }
-	  public int getHalbjahr() {
+	  public String getHalbjahr() {
 		    return halbjahr;
 		  }
 	  public String getHinweis() {
