@@ -2,23 +2,28 @@ package de.alexanderbeck.TierbestandProjekt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+
 import org.springframework.stereotype.Controller;
 
-//import com.baeldung.model.Person;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
+
+import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+
+import java.io.File;
+
+import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @SpringBootApplication
 @Controller
@@ -119,16 +124,47 @@ public class SearchController {
 
 	    }
 
-    	
-    
     @FXML
     public void csvExportieren() {
+    	List<String[]> dataLines = new ArrayList<>();
+    	File csvOutputFile = new File("Exportdatei.txt");
+    	
+    	dataLines.add(new String[] 
+  			  {"BNR15","TAMV_DAT","TAMB_FORM","TAMV_ART","TAMV_ANZ","TAM_PERIOD"});
     	
 	    for (Bestand bestand : repository.findAll()) {
-	    	  System.out.println(bestand.toString());
+	    	  //System.out.println(bestand.toString());
+	    	LocalDate meldedatum = bestand.getMeldedatum();
+	    	String formattedMeldedatum = meldedatum.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+	  
+	    	dataLines.add(new String[] 
+	    			  {bestand.getBNummer(),formattedMeldedatum, Integer.toString(bestand.getNutzartCode()), bestand.getAenderartCode(),Integer.toString(bestand.getAnzahl()), Integer.toString(bestand.getHalbjahr()) });
 	    }
+        try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
+            dataLines.stream()
+              .map(this::convertToCSV)
+              .forEach(pw::println);
+        } catch (Exception e) {
+            // Handle it.
+        	//assertTrue(csvOutputFile.exists());
+        	System.out.println("Fehler bei der CSV Erstellung");
+        }
+        
+    }
+    
+    public String convertToCSV(String[] data) {
+        return Stream.of(data)
+            .map(this::escapeSpecialCharacters)
+            .collect(Collectors.joining(";"));
     }
 
-	
-
+    public String escapeSpecialCharacters(String data) {
+        String escapedData = data.replaceAll("\\R", " ");
+        if (data.contains(",") || data.contains("\"") || data.contains("'")) {
+            data = data.replace("\"", "\"\"");
+            escapedData = "\"" + data + "\"";
+        }
+        return escapedData;
+    }
+    
 }
