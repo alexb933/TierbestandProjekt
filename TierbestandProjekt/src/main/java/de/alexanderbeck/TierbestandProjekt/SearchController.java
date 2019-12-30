@@ -2,7 +2,6 @@ package de.alexanderbeck.TierbestandProjekt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import org.springframework.stereotype.Controller;
 
 
@@ -10,17 +9,13 @@ import javafx.collections.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 import java.io.File;
-
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -67,7 +62,6 @@ public class SearchController {
     private void initialize() {
        
         //lade die letzten Bestände und zeige diese auf der GUI an
-    	
     	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
     	int bestandAb30 = bestand1.getBestandab30();
     	int bestandu30 = bestand1.getBestandu30();
@@ -184,15 +178,12 @@ public class SearchController {
     @FXML
     public void updaten() {
     	
-    	
     	Bestand bestand1 = repository.findFirstByBnummerOrderByZeitstampDesc("08 436 095 0018");
     	int bestandAb30 = bestand1.getBestandab30();
     	int bestandu30 = bestand1.getBestandu30();
 
     	summeU30.setText(Integer.toString(bestandu30));
     	summeAb30.setText(Integer.toString(bestandAb30));
-    	
-
 	    }
 
     @FXML
