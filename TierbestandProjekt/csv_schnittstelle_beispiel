@@ -20,4 +20,5 @@ TAM_PERIOD		Meldeperiode 		--> ist das Halbjahr in welchem gemeldet wird. 20.09.
 									
 Fragen:
 configfile zur Pflege der DB Parameter und standardwerte wie Bnummer usw.?
-Datum Halbjahr einbauen!
+int abfrage für Textfelder?
+Touch EIngabe der Int Werte?
