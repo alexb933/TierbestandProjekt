@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -69,6 +70,8 @@ public class SearchController {
     private Button loeschenBtn;
     @FXML
     private Button csvExportBtn;
+    @FXML
+    private Button closeBtn;
     
     
      
@@ -93,6 +96,7 @@ public class SearchController {
         toteAb30Btn.setOnAction(event -> toteAb30());
         verkaufBtn.setOnAction(event -> verkauf());
         loeschenBtn.setOnAction(event -> loeschen());
+        closeBtn.setOnAction(EventHandler -> Platform.exit());
         //searchButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
     }
     @FXML
